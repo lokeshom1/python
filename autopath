@@ -1,0 +1,27 @@
+#!/bin/sh
+echo " This script is to join host to domain "
+echo -n "
+**********************************************************
+* Checking if the following packages have been installed * 
+**********************************************************"
+rpm -qa $1 $2 $3
+if [ $? -eq 0 ]
+echo " Packages is installed "
+else 
+yum install $1 $2 $3
+fi
+result=`echo $?`
+if [ result -eq 0 ]
+then
+TZ='Asia/Calcutta'; export TZ
+ntpdate 1.ntp.esl.cisco.com
+scp lomtri@bgl-xdm-111:/etc/auto.* /etc/
+service autofs restart
+service nfs restart
+service rpcbind restart
+else
+echo "0 : packages are not installed "
+fi
+
+
+

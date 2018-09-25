@@ -1,0 +1,23 @@
+#!/bin/sh
+echo -n " ****************************************\n
+       /r This is script is to copy the packages from CD\n
+	    /r *************************************** "
+if [ ! -d /repo ]
+then
+ls /media | wc -l 
+if [ $? -eq 0 ]
+then
+echo "";
+mount /dev/cdrom /media
+mkdir /repo
+RESULT=`echo $?`
+if [ RESULT -eq 0 ]
+then 
+cp -rv /media/Packages/* /repo
+else
+echo " no packages found "
+exit 1;
+end
+else
+echo " END "
+exit
